@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "restaurent-app"
+    }
+  },
+  "defaultProject": "restaurent-app",
+  "cli": {
+    "analytics": "d84f16b8-a4b0-4d50-8dfe-c5da9413bcfa"
+  }
 }
