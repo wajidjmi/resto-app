@@ -9,7 +9,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./update-restaurent.component.css']
 })
 export class UpdateRestaurentComponent implements OnInit {
-  alert = false;
+  // tslint:disable-next-line: no-inferrable-types
+  alert: boolean = false;
   editRestaurent = new FormGroup({
     name: new FormControl(''),
     Adress: new FormControl(''),
@@ -18,23 +19,43 @@ export class UpdateRestaurentComponent implements OnInit {
   });
   updateRestaurent: any;
 
-  constructor(private resto: CommonService, private router: ActivatedRoute) { }
+  constructor(
+    private resto: CommonService, private router: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    console.log(this.router.snapshot.params.id);
     this.resto.getCurrentData(this.router.snapshot.params.id).subscribe((result) => {
-      console.log();
-    }
-    );
+      this.editRestaurent = new FormGroup({
+        // tslint:disable-next-line: no-string-literal
+        name: new FormControl(result['name']),
+        // tslint:disable-next-line: no-string-literal
+        Adress: new FormControl(result['Adress']),
+        // tslint:disable-next-line: no-string-literal
+        mobile: new FormControl(result['mobile']),
+        // tslint:disable-next-line: no-string-literal
+        email: new FormControl(result['email'])
+      });
+    });
   }
   // tslint:disable-next-line: typedef
-  createResto() {
-    this.resto.addResto(this.updateRestaurent.value).subscribe((result) => {
+  updateResto() {
+    console.log(this.router.snapshot.params.id);
+    this.resto.updateResto(this.router.snapshot.params.id, this.editRestaurent.value).subscribe((result) => {
+      // tslint:disable-next-line: quotemark
+      console.log(result, "data update successfully");
       this.alert = true;
-      this.updateRestaurent.reset({});
-      console.log('Get Data from Service', result);
-    }
-    );
-    // console.log(this.addRestaurent.value)
+      this.editRestaurent = new FormGroup({
+        // tslint:disable-next-line: no-string-literal
+        name: new FormControl(result['name']),
+        // tslint:disable-next-line: no-string-literal
+        Adress: new FormControl(result['Adress']),
+        // tslint:disable-next-line: no-string-literal
+        mobile: new FormControl(result['mobile']),
+        // tslint:disable-next-line: no-string-literal
+        email: new FormControl(result['email']),
+      });
+    });
   }
   // tslint:disable-next-line: typedef
   closeAlert() {

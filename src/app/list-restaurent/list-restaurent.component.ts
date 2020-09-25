@@ -9,7 +9,9 @@ import { CommonService } from '../common.service';
 export class ListRestaurentComponent implements OnInit {
 
   public collection: any;
-  constructor(private commonService: CommonService) { }
+  constructor(
+    private commonService: CommonService,
+    ) { }
 
   ngOnInit(): void {
     this.commonService.getRestoList().subscribe((result) => {
